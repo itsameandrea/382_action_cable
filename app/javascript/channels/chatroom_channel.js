@@ -9,7 +9,12 @@ if (messagesContainer) {
     { channel: "ChatroomChannel", id: id },
     {
       received(data) {
-        messagesContainer.insertAdjacentHTML("beforeend", data);
+        if (data.action && data.action === 'DELETE') {
+          const msg = document.querySelector(`#message-${data.message}`)
+          msg.remove()
+        } else {
+          messagesContainer.insertAdjacentHTML("beforeend", data);
+        }
       },
     }
   );

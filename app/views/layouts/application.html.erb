@@ -9,6 +9,9 @@
   </head>
 
   <body>
+    <nav>
+      <%= "Logged in as #{current_user&.nickname}" %>
+    </nav>
     <%= yield %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </body>

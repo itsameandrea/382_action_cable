@@ -15,6 +15,21 @@ class MessagesController < ApplicationController
     end
   end
 
+  def destroy
+    @chatroom = Chatroom.find(params[:chatroom_id])
+    @message = Message.find(params[:id])
+
+    if @message.destroy!
+      ChatroomChannel.broadcast_to(
+        @chatroom,
+        {
+          message: @message.id,
+          action: "DELETE"
+        }
+      )
+    end
+  end
+
   private
 
   def message_params

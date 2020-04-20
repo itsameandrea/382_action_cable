@@ -1,18 +1,22 @@
 <h1>#<%= @chatroom.name %></h1>
 <div id="messages" data-chatroom-id="<%= @chatroom.id %>">
-
-
   <% @chatroom.messages.each do |message| %>
   <div class="message-container" data-user="<%= message.user.nickname %>" id="message-<%= message.id %>">
     <i class="author">
       <span><%= message.user.nickname %></span>
       <small><%= message.created_at.strftime("%a %b %e at %l:%M%p") %></small>
     </i>
-    <p><%= message.content %></p>
+    <p>
+      <%= message.content %>
+      <%= simple_form_for [ @chatroom, message ], method: :delete, remote: true do |f| %>
+        <%= f.submit "Delete Message" %>
+      <% end %>
+    </p>
   </div>
   <% end %>
 </div>
 
 <%= simple_form_for [ @chatroom, @message ], remote: true do |f| %>
   <%= f.input :content, label: false, placeholder: "Message ##{@chatroom.name}" %>
+  <%= f.button :submit %>
 <% end %>
